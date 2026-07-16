@@ -1,106 +1,150 @@
-# 🚗 RC_esp32_nano
+﻿# 🚗 RC_esp32_nano
 
-Projekt zdalnie sterowanego auta RC rozwijany w kilku wersjach sprzętowo-programowych.
+A remotely controlled RC car project developed across multiple hardware and software versions.
 
-## 📖 Opis ogólny
+## 📖 Overview
 
-Repozytorium zawiera dwie główne linie rozwoju:
+This repository contains two main development lines:
 
-- **Wersja 1 (2024)** – sterowanie przez **WiFi TCP/IP** (ATmega UNO + ESP8266)
-- **Wersja 2 (2025)** – sterowanie przez **nRF24L01** + opcjonalne **IMU MPU6050** (ATmega Nano)
+- **Version 1 (2024)** — control via **WiFi TCP/IP** (ATmega UNO + ESP8266)
+- **Version 2 (2025)** — control via **nRF24L01** with optional **MPU6050 IMU** (ATmega Nano)
+- **Version 3 (2026)** — control via **nRF24L01**, full sensor suite, FreeRTOS (**Arduino Nano ESP32**)
 
-Wspólnym celem obu wersji jest kontrola pojazdu RC (napęd + skręt), z naciskiem na niskie opóźnienia i bezpieczeństwo pracy.
-
----
-
-## 🧩 Struktura projektu
-
-- Odbiorniki: [src/Receiver](src/Receiver)
-	- [src/Receiver/01_rx_atmega_uno/AP_TCP_Server_RC_Car.ino](src/Receiver/01_rx_atmega_uno/AP_TCP_Server_RC_Car.ino)
-	- [src/Receiver/02_rx_atmega_nano/receiver_nano.ino](src/Receiver/02_rx_atmega_nano/receiver_nano.ino)
-- Nadajniki: [src/Transmitter](src/Transmitter)
-	- [src/Transmitter/02_tx_nano/transmitter_nano.ino](src/Transmitter/02_tx_nano/transmitter_nano.ino)
-- Dokumentacja i materiały: [doc](doc)
+The shared goal of all versions is RC vehicle control (drive + steering) with an emphasis on low latency and operational safety.
 
 ---
 
-## 🌐 Wersja 1 (2024) – WiFi TCP
+## 🧩 Project Structure
 
-### Architektura
-
-Klient (telefon/PC) wysyła komendy `F/B/L/R/S` po TCP do ESP8266 działającego jako Access Point.
-ESP8266 przekazuje je do ATmega UNO, który steruje 4 silnikami DC przez piny kierunku.
-
-### Cechy
-
-- Prosta implementacja i łatwe testy sieciowe
-- Komendy dyskretne (bez płynnej regulacji)
-- Dobra baza edukacyjna do nauki komunikacji WiFi + Arduino
+- Receivers: [src/Receiver](src/Receiver)
+  - [01_rx_atmega_uno](src/Receiver/01_rx_atmega_uno/AP_TCP_Server_RC_Car.ino) — WiFi TCP server (V1)
+  - [02_rx_atmega_nano](src/Receiver/02_rx_atmega_nano/receiver_nano.ino) — nRF24 receiver (V2)
+  - [03_rx_esp32_nano](src/Receiver/03_rx_esp32_nano) — ESP32 receiver (V3, in progress)
+- Transmitters: [src/Transmitter](src/Transmitter)
+  - [02_tx_nano](src/Transmitter/02_tx_nano/transmitter_nano.ino) — nRF24 transmitter (V2)
+  - [03_tx_nano](src/Transmitter/03_tx_nano) — transmitter (V3, in progress)
+- Documentation and assets: [doc](doc)
 
 ---
 
-## ⚡ Wersja 2 (2025) – nRF24 + IMU
+## 🌐 Version 1 (2024) — WiFi TCP
 
-### Architektura
+### Architecture
 
-Nadajnik na Nano odczytuje joysticki/przyciski/potencjometry (oraz opcjonalnie MPU6050), pakuje dane i wysyła je przez nRF24.
-Odbiornik na Nano dekoduje pakiet i steruje:
+A client (phone or PC) sends discrete commands (`F/B/L/R/S`) over TCP to an ESP8266 acting as an Access Point.
+The ESP8266 forwards them to an ATmega UNO, which drives 4 DC motors via direction pins.
 
-- **ESC** (napęd)
-- **Servo** (skręt)
-- **LED WS2812** (sygnalizacja stanu/skrętu)
+### Features
 
-### Cechy
-
-- Niska latencja i bardziej „radiowy” charakter sterowania
-- Dwa tryby napędu (crawl/speed)
-- Deadzone, ramping, watchdog i timeout sygnału
-- Możliwość sterowania ruchem kontrolera (IMU mode)
+- Simple implementation, easy network testing
+- Discrete commands (no smooth throttle control)
+- Good educational base for WiFi + Arduino communication
 
 ---
 
-## 📡 Dane i komunikacja
+## ⚡ Version 2 (2025) — nRF24 + IMU
 
-W V2 używana jest zwarta struktura `Data_Package` (14 bajtów), która zawiera m.in. osie joysticków, stany przycisków i przełączników.
-To mieści się bezpiecznie w limicie bufora nRF24 (32 bajty).
+### Architecture
 
----
+The transmitter (Nano) reads joysticks, buttons and potentiometers (and optionally the MPU6050), packs the data and sends it via nRF24.
+The receiver (Nano) decodes the packet and controls:
 
-## 🛡️ Bezpieczeństwo i niezawodność
+- **ESC** (drive)
+- **Servo** (steering)
+- **WS2812 LEDs** (status and turn indication)
 
-W projekcie zastosowano m.in.:
+### Features
 
-- timeout utraty sygnału
-- watchdog (receiver V2)
-- neutral/stop jako stan bezpieczny
-- ograniczenia i martwe strefy sterowania
-
----
-
-## 📚 Dokumenty analityczne
-
-- Odbiornik V1: [G_model_v1_2024.md](G_model_v1_2024.md)
-- Odbiornik V2: [G_model_v2_2025.md](G_model_v2_2025.md)
-- Nadajnik V2: [P_model_v2_2025.md](P_model_v2_2025.md)
+- Low latency, true radio-style control
+- Two drive modes (crawl / speed)
+- Deadzone, ramping, watchdog and signal timeout
+- Optional IMU-based controller tilt mode
 
 ---
 
-## 🔧 Biblioteki
+## 🛰️ Version 3 (2026) — Arduino Nano ESP32
 
-Najważniejsze biblioteki użyte w kodzie:
+### Architecture
 
-- `RF24` (nRF24L01)
-- `FastLED` (WS2812)
-- `Servo`
-- `Wire` (I2C / MPU6050)
-- `avr/wdt` (watchdog)
+Full redesign based on **Arduino Nano ESP32** with FreeRTOS task architecture.
+
+Key additions over V2:
+
+| Feature | Detail |
+|---|---|
+| RF | nRF24L01 with IRQ |
+| LiDAR | TF-Luna (UART1) |
+| IMU | MPU6050 (I²C) |
+| Display | SSD1306 OLED (I²C) |
+| LEDs | 3 × WS2812B channels |
+| Connectivity | WiFi AP + WebSocket telemetry |
+| Power | 3S LiPo, dual Buck, RF LDO |
+| EMC | Buffered PWM, ferrites, star ground |
+
+### Architecture Documents
+
+- [Hardware Architecture](Hardware_Architecture_2026.md)
+- [Hardware Design Rules](Hardware_Design_Rules_2026.md)
+- [Software Architecture](Software_Architecture_2026.md)
+- [Objectives for V3](Objectives_for_V3.md)
 
 ---
 
-## 🚀 Kierunek rozwoju
+## 📡 Data & Communication
 
-Repozytorium zawiera również katalogi pod kolejne iteracje (Receiver/Transmitter `03_*`), co wskazuje na plan dalszej rozbudowy platformy.
+In V2 a compact `Data_Package` struct (14 bytes) is used, carrying joystick axes, button and switch states.
+This fits safely within the nRF24 buffer limit (32 bytes).
+
+In V3 the packet structure is extended to support telemetry, mode flags and failsafe state.
 
 ---
 
-Ostatnia aktualizacja README: czerwiec 2026.
+## 🛡️ Safety & Reliability
+
+Mechanisms implemented across versions:
+
+- Signal loss timeout
+- Hardware watchdog (V2 receiver, V3)
+- Neutral / stop as the default safe state
+- Control limits and deadzone filtering
+- Failsafe controller with `SAFE_STOP` mode (V3)
+
+---
+
+## 📚 Analysis Documents
+
+| Document | Content |
+|---|---|
+| [G_model_v1_2024.md](G_model_v1_2024.md) | Receiver V1 analysis |
+| [G_model_v2_2025.md](G_model_v2_2025.md) | Receiver V2 analysis |
+| [G_model_v3_2026.md](G_model_v3_2026.md) | Receiver V3 analysis |
+| [P_model_v2_2025.md](P_model_v2_2025.md) | Transmitter V2 analysis |
+
+---
+
+## 🔧 Libraries
+
+| Library | Purpose |
+|---|---|
+| `RF24` | nRF24L01 radio |
+| `FastLED` | WS2812B LEDs |
+| `Servo` | Servo PWM |
+| `Wire` | I²C (MPU6050, SSD1306) |
+| `avr/wdt` | Hardware watchdog |
+| `FreeRTOS` | Task scheduling (V3) |
+| `ESPAsyncWebServer` | Web interface (V3) |
+
+---
+
+## 🚀 Roadmap
+
+- [x] V1 — WiFi TCP control (2024)
+- [x] V2 — nRF24 + IMU control (2025)
+- [ ] V3 — ESP32, FreeRTOS, full sensor suite (2026)
+- [ ] V3 — Autonomous obstacle avoidance
+- [ ] V3 — WebSocket live telemetry dashboard
+- [ ] V3 — OTA firmware update
+
+---
+
+*Last README update: July 2026.*

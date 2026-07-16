@@ -22,13 +22,13 @@ Zakres podglądu w panelu debug:
 ### 2.2 Autonomiczne hamowanie awaryjne
 
 - Dodanie funkcji bezpieczeństwa: **automatyczne hamowanie** po wykryciu przeszkody.
-- Czujnik początkowy: **1× czujnik ultradźwiękowy z przodu**.
+- Czujnik początkowy: **1× Laserowy czujnik odległości Lidar TF Luna (8m, UART/I2C) z przodu**.
 - Cel: redukcja ryzyka kolizji przy jeździe do przodu.
 - Priorytet bezpieczeństwa: hamowanie autonomiczne ma nadrzędność nad gazem z pilota.
 
-### 2.3 Tryb „jazda na wprost” (MPU6050)
+### 2.3 Podstawowa autonomia („jazda na wprost”, MPU6050)
 
-- Dodanie trybu wspomagania jazdy do przodu opartego o **MPU6050**.
+- Dodanie podstawowej autonomii jazdy do przodu opartej o **MPU6050**.
 - W trybie aktywnym system utrzymuje kierunek jazdy „na wprost”.
 - Utrzymanie kierunku trwa do momentu poruszenia manetki kierunku przez operatora.
 - Ręczna korekta kierunku z pilota natychmiast wyłącza wymuszenie toru prostego.
@@ -53,7 +53,6 @@ Projekt V3 uznaje się za spełniony, gdy:
 ## 5) Zakres pierwszej iteracji wdrożenia
 
 - Integracja AP + WWW debug (MVP dashboard).
-- Integracja 1 czujnika ultradźwiękowego (przód) + próg hamowania.
-- Integracja MPU6050 + prosty algorytm utrzymania kierunku.
+- Integracja 1 czujnika Lidar TF Luna (przód, UART/I2C) + próg hamowania.
+- Integracja MPU6050 + prosty algorytm podstawowej autonomii (utrzymanie kierunku).
 - Testy terenowe: manual RC, hamowanie awaryjne, stabilizacja jazdy na wprost.
-
