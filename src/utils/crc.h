@@ -1,0 +1,5 @@
+#pragma once
+
+#include <cstdint>
+
+std::uint16_t crc16(const std::uint8_t* data, std::size_t length);
