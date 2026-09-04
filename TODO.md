@@ -36,7 +36,10 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 - [ ] Integracja monitoringu napięcia akumulatora
 - [ ] Uruchomienie Wi-Fi AP i panelu WWW do diagnostyki
 - [ ] Implementacja telemetrii WebSocket
-- [ ] Implementacja failsafe i SAFE_STOP
+- [~] Implementacja failsafe i SAFE_STOP
+	- [x] Timeout i aktywacja SAFE_STOP w warstwie radiowej
+	- [x] Reakcja trybu pracy (`SafeStop`) w `SystemManager`
+	- [ ] Przeniesienie reakcji wykonawczej do kontrolerów napędu
 - [ ] Weryfikacja EMC i odporności na zakłócenia
 
 ## 3. Plan prac
@@ -44,9 +47,10 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 ### Etap A - Fundamenty
 
 - [ ] Potwierdzić mapę modułów i odpowiedzialności warstw
-- [ ] Uzupełnić main.cpp o inicjalizację SystemManager
+- [x] Uzupełnić main.cpp o inicjalizację SystemManager
 - [x] Uporządkować konfigurację w katalogu config/
 - [x] Zdefiniować wspólne modele danych w models/
+- [x] Spiąć `VehicleState` z `RadioService` w `SystemManager`
 
 ### Etap B - Komunikacja i sterowanie
 

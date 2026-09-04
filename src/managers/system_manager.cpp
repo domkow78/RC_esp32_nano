@@ -40,7 +40,12 @@ unsigned long SystemManager::updateCount() const {
 	return updateCount_;
 }
 
+const VehicleState& SystemManager::vehicleState() const {
+	return vehicleState_;
+}
+
 void SystemManager::initializeCore() {
+	vehicleState_.mode = OperatingMode::Init;
 }
 
 void SystemManager::initializeServices() {
@@ -48,6 +53,7 @@ void SystemManager::initializeServices() {
 }
 
 void SystemManager::initializeApplication() {
+	vehicleState_.mode = OperatingMode::Ready;
 }
 
 void SystemManager::runCoreTick() {
@@ -58,4 +64,27 @@ void SystemManager::runServicesTick() {
 }
 
 void SystemManager::runApplicationTick() {
+	syncVehicleStateFromRadio();
+	updateOperatingMode();
+}
+
+void SystemManager::syncVehicleStateFromRadio() {
+	vehicleState_.radio = radioService_.latestPacket();
+	vehicleState_.failsafeActive = radioService_.failsafeActive();
+}
+
+void SystemManager::updateOperatingMode() {
+	if (vehicleState_.failsafeActive || vehicleState_.radio.emergencyStop) {
+		vehicleState_.mode = OperatingMode::SafeStop;
+		vehicleState_.radio.throttle = 0;
+		vehicleState_.radio.steering = 0;
+		return;
+	}
+
+	if (vehicleState_.mode == OperatingMode::Boot ||
+		vehicleState_.mode == OperatingMode::Init ||
+		vehicleState_.mode == OperatingMode::Ready ||
+		vehicleState_.mode == OperatingMode::SafeStop) {
+		vehicleState_.mode = OperatingMode::Manual;
+	}
 }
