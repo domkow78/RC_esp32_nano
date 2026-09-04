@@ -21,15 +21,37 @@ void EscDriver::begin() {
     lastThrottle_ = 0;
     lastPulseUs_ = static_cast<std::uint16_t>(config::kEscPulseNeutralUs);
     brakeActive_ = false;
+    armed_ = false;
+    armStartMs_ = nowMs();
 
 #if defined(ARDUINO_ARCH_ESP32)
     ledcSetup(config::kEscPwmChannel, config::kPwmFrequencyHz, config::kPwmResolutionBits);
     ledcAttachPin(config::kPinEscPwm, config::kEscPwmChannel);
-    ledcWrite(config::kEscPwmChannel, pulseToDuty(lastPulseUs_));
 #endif
+
+    applyPulse(lastPulseUs_);
+}
+
+void EscDriver::update() {
+    if (armed_) {
+        return;
+    }
+
+    if ((nowMs() - armStartMs_) >= config::kEscArmDurationMs) {
+        armed_ = true;
+    }
 }
 
 void EscDriver::writeCommand(int throttle, bool brake) {
+    update();
+
+    if (!armed_) {
+        brakeActive_ = false;
+        lastThrottle_ = 0;
+        applyPulse(static_cast<std::uint16_t>(config::kEscPulseNeutralUs));
+        return;
+    }
+
     if (brake) {
         writeBrake();
         return;
@@ -42,20 +64,14 @@ void EscDriver::writeThrottle(int throttle) {
     lastThrottle_ = clamp(throttle, config::kThrottleMin, config::kThrottleMax);
     brakeActive_ = false;
     lastPulseUs_ = throttleToPulseUs(lastThrottle_);
-
-#if defined(ARDUINO_ARCH_ESP32)
-    ledcWrite(config::kEscPwmChannel, pulseToDuty(lastPulseUs_));
-#endif
+    applyPulse(lastPulseUs_);
 }
 
 void EscDriver::writeBrake() {
     lastThrottle_ = 0;
     brakeActive_ = true;
     lastPulseUs_ = static_cast<std::uint16_t>(config::kEscPulseBrakeUs);
-
-#if defined(ARDUINO_ARCH_ESP32)
-    ledcWrite(config::kEscPwmChannel, pulseToDuty(lastPulseUs_));
-#endif
+    applyPulse(lastPulseUs_);
 }
 
 int EscDriver::lastThrottle() const {
@@ -68,6 +84,18 @@ std::uint16_t EscDriver::lastPulseUs() const {
 
 bool EscDriver::brakeActive() const {
     return brakeActive_;
+}
+
+bool EscDriver::armed() const {
+    return armed_;
+}
+
+void EscDriver::applyPulse(std::uint16_t pulseUs) {
+    lastPulseUs_ = pulseUs;
+
+#if defined(ARDUINO_ARCH_ESP32)
+    ledcWrite(config::kEscPwmChannel, pulseToDuty(pulseUs));
+#endif
 }
 
 int EscDriver::clamp(int value, int minValue, int maxValue) {
@@ -95,4 +123,12 @@ std::uint16_t EscDriver::throttleToPulseUs(int throttle) {
     const int clampedForward = clamp(clampedReverse, config::kEscPulseMinUs, config::kEscPulseMaxUs);
     const int scaled = clampedForward;
     return static_cast<std::uint16_t>(scaled);
+}
+
+unsigned long EscDriver::nowMs() {
+#if defined(ARDUINO_ARCH_ESP32)
+    return millis();
+#else
+    return 0UL;
+#endif
 }

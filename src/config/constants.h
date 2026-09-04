@@ -32,6 +32,7 @@ inline constexpr int kEscPulseMinUs = 1000;
 inline constexpr int kEscPulseMaxUs = 2000;
 inline constexpr int kEscPulseNeutralUs = 1500;
 inline constexpr int kEscPulseBrakeUs = 1350;
+inline constexpr unsigned long kEscArmDurationMs = 1500;
 inline constexpr int kServoPulseMinUs = 1000;
 inline constexpr int kServoPulseMaxUs = 2000;
 inline constexpr int kServoPulseCenterUs = 1500;

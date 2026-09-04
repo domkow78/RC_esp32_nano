@@ -44,6 +44,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 	- [x] Bazowe wyjścia PWM ESC/Servo dla ESP32
 	- [x] Mapowanie ESC: neutral / brake / reverse
 	- [x] Limity sterowania zależne od trybu pracy
+	- [x] Nieblokujące uzbrajanie ESC przy starcie
 - [ ] Weryfikacja EMC i odporności na zakłócenia
 
 ## 3. Plan prac

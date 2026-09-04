@@ -9,6 +9,8 @@ void DriveController::begin() {
 }
 
 void DriveController::update(const VehicleState& vehicleState) {
+    escDriver_.update();
+
     const int throttleLimit = modeThrottleAbsLimit(vehicleState.mode);
     const int steeringLimit = modeSteeringAbsLimit(vehicleState.mode);
 
