@@ -18,4 +18,15 @@ inline constexpr int kThrottleMax = 255;
 inline constexpr int kSteeringMin = -100;
 inline constexpr int kSteeringMax = 100;
 
+inline constexpr int kPwmFrequencyHz = 50;
+inline constexpr int kPwmResolutionBits = 16;
+inline constexpr int kEscPulseMinUs = 1000;
+inline constexpr int kEscPulseMaxUs = 2000;
+inline constexpr int kEscPulseNeutralUs = 1500;
+inline constexpr int kServoPulseMinUs = 1000;
+inline constexpr int kServoPulseMaxUs = 2000;
+inline constexpr int kServoPulseCenterUs = 1500;
+inline constexpr int kEscPwmChannel = 0;
+inline constexpr int kServoPwmChannel = 1;
+
 }  // namespace config

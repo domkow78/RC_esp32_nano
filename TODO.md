@@ -41,6 +41,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 	- [x] Reakcja trybu pracy (`SafeStop`) w `SystemManager`
 	- [x] Przeniesienie reakcji wykonawczej do kontrolerów napędu
 	- [x] Podłączenie `DriveController` do pętli aplikacyjnej
+	- [x] Bazowe wyjścia PWM ESC/Servo dla ESP32
 - [ ] Weryfikacja EMC i odporności na zakłócenia
 
 ## 3. Plan prac
