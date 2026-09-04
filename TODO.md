@@ -40,6 +40,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 	- [x] Timeout i aktywacja SAFE_STOP w warstwie radiowej
 	- [x] Reakcja trybu pracy (`SafeStop`) w `SystemManager`
 	- [x] Przeniesienie reakcji wykonawczej do kontrolerów napędu
+	- [x] Podłączenie `DriveController` do pętli aplikacyjnej
 - [ ] Weryfikacja EMC i odporności na zakłócenia
 
 ## 3. Plan prac

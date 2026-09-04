@@ -55,6 +55,7 @@ void SystemManager::initializeServices() {
 void SystemManager::initializeApplication() {
 	vehicleState_.mode = OperatingMode::Ready;
 	missionController_.begin();
+	driveController_.begin();
 }
 
 void SystemManager::runCoreTick() {
@@ -68,6 +69,7 @@ void SystemManager::runApplicationTick() {
 	syncVehicleStateFromRadio();
 	updateOperatingMode();
 	missionController_.update(vehicleState_);
+	driveController_.update(vehicleState_);
 }
 
 void SystemManager::syncVehicleStateFromRadio() {
