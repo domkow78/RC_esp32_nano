@@ -22,7 +22,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 - [~] Uruchomienie rdzenia firmware na Arduino Nano ESP32
 	- [x] Spięcie `main()` z `SystemManager`
 	- [x] Dodanie inicjalizacji warstw startowych
-	- [ ] Dodanie podstawowego cyklu pracy firmware
+	- [x] Dodanie podstawowego cyklu pracy firmware
 - [ ] Integracja nRF24L01 z obsługą IRQ i heartbeat
 - [ ] Integracja TF-Luna jako czujnika przeszkód z przodu
 - [ ] Integracja MPU6050 dla podstawowej stabilizacji kierunku

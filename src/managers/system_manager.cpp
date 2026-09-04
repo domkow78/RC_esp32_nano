@@ -16,6 +16,12 @@ void SystemManager::update() {
 	if (!started_) {
 		return;
 	}
+
+	++updateCount_;
+
+	runCoreTick();
+	runServicesTick();
+	runApplicationTick();
 }
 
 void SystemManager::initializeCore() {
@@ -25,4 +31,13 @@ void SystemManager::initializeServices() {
 }
 
 void SystemManager::initializeApplication() {
+}
+
+void SystemManager::runCoreTick() {
+}
+
+void SystemManager::runServicesTick() {
+}
+
+void SystemManager::runApplicationTick() {
 }
