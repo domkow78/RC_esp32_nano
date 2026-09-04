@@ -2,8 +2,19 @@
 
 class SystemManager {
 public:
+    enum class StartupPhase {
+        Idle,
+        Core,
+        Services,
+        Application,
+        Running
+    };
+
     void begin();
     void update();
+    bool isStarted() const;
+    StartupPhase startupPhase() const;
+    unsigned long updateCount() const;
 
 private:
     void initializeCore();
@@ -14,5 +25,6 @@ private:
     void runApplicationTick();
 
     bool started_ = false;
+    StartupPhase startupPhase_ = StartupPhase::Idle;
     unsigned long updateCount_ = 0;
 };

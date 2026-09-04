@@ -23,6 +23,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 	- [x] Spięcie `main()` z `SystemManager`
 	- [x] Dodanie inicjalizacji warstw startowych
 	- [x] Dodanie podstawowego cyklu pracy firmware
+	- [x] Uporządkowanie faz startowych `SystemManager`
 - [ ] Integracja nRF24L01 z obsługą IRQ i heartbeat
 - [ ] Integracja TF-Luna jako czujnika przeszkód z przodu
 - [ ] Integracja MPU6050 dla podstawowej stabilizacji kierunku

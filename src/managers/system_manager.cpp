@@ -5,10 +5,14 @@ void SystemManager::begin() {
 		return;
 	}
 
+	startupPhase_ = StartupPhase::Core;
 	initializeCore();
+	startupPhase_ = StartupPhase::Services;
 	initializeServices();
+	startupPhase_ = StartupPhase::Application;
 	initializeApplication();
 
+	startupPhase_ = StartupPhase::Running;
 	started_ = true;
 }
 
@@ -22,6 +26,18 @@ void SystemManager::update() {
 	runCoreTick();
 	runServicesTick();
 	runApplicationTick();
+}
+
+bool SystemManager::isStarted() const {
+	return started_;
+}
+
+SystemManager::StartupPhase SystemManager::startupPhase() const {
+	return startupPhase_;
+}
+
+unsigned long SystemManager::updateCount() const {
+	return updateCount_;
 }
 
 void SystemManager::initializeCore() {
