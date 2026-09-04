@@ -44,6 +44,7 @@ void SystemManager::initializeCore() {
 }
 
 void SystemManager::initializeServices() {
+	radioService_.begin();
 }
 
 void SystemManager::initializeApplication() {
@@ -53,6 +54,7 @@ void SystemManager::runCoreTick() {
 }
 
 void SystemManager::runServicesTick() {
+	radioService_.update();
 }
 
 void SystemManager::runApplicationTick() {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../services/radio_service.h"
+
 class SystemManager {
 public:
     enum class StartupPhase {
@@ -24,6 +26,7 @@ private:
     void runServicesTick();
     void runApplicationTick();
 
+    RadioService radioService_;
     bool started_ = false;
     StartupPhase startupPhase_ = StartupPhase::Idle;
     unsigned long updateCount_ = 0;
