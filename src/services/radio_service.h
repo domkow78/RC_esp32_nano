@@ -25,6 +25,7 @@ public:
 private:
     static std::int16_t readInt16Le(const std::uint8_t* data);
     static std::uint16_t readUInt16Le(const std::uint8_t* data);
+    static float readFloatLe(const std::uint8_t* data);
 
     void evaluateLinkState();
     void processIncomingFrame(const protocol::PacketFrame& frame);

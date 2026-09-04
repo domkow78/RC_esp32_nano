@@ -1,5 +1,7 @@
 #include "radio_service.h"
 
+#include <cstring>
+
 std::int16_t RadioService::readInt16Le(const std::uint8_t* data) {
     return static_cast<std::int16_t>(
         static_cast<std::uint16_t>(data[0]) |
@@ -10,6 +12,18 @@ std::uint16_t RadioService::readUInt16Le(const std::uint8_t* data) {
     return static_cast<std::uint16_t>(
         static_cast<std::uint16_t>(data[0]) |
         (static_cast<std::uint16_t>(data[1]) << 8));
+}
+
+float RadioService::readFloatLe(const std::uint8_t* data) {
+    std::uint32_t raw = 0;
+    raw |= static_cast<std::uint32_t>(data[0]);
+    raw |= static_cast<std::uint32_t>(data[1]) << 8;
+    raw |= static_cast<std::uint32_t>(data[2]) << 16;
+    raw |= static_cast<std::uint32_t>(data[3]) << 24;
+
+    float value = 0.0f;
+    std::memcpy(&value, &raw, sizeof(value));
+    return value;
 }
 
 void RadioService::begin() {
@@ -148,5 +162,16 @@ void RadioService::processIncomingFrame(const protocol::PacketFrame& frame) {
     if (currentPacketType_ == protocol::PacketType::Status && frame.payloadLength >= 2U) {
         latestPacket_.statusCode = frame.payload[0];
         latestPacket_.statusFlags = frame.payload[1];
+        return;
+    }
+
+    if (currentPacketType_ == protocol::PacketType::Telemetry && frame.payloadLength >= 20U) {
+        latestPacket_.telemetryBatteryVoltage = readFloatLe(frame.payload.data());
+        latestPacket_.telemetryBatteryCurrent = readFloatLe(frame.payload.data() + 4);
+        latestPacket_.telemetryImuHeading = readFloatLe(frame.payload.data() + 8);
+        latestPacket_.telemetryLidarDistanceCm = readFloatLe(frame.payload.data() + 12);
+        latestPacket_.telemetryRssi = static_cast<short>(readInt16Le(frame.payload.data() + 16));
+        latestPacket_.telemetryPacketLoss = frame.payload[18];
+        latestPacket_.telemetryErrorFlags = frame.payload[19];
     }
 }
