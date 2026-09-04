@@ -5,6 +5,7 @@ void RadioService::begin() {
     currentPacketType_ = protocol::PacketType::Status;
     latestPacket_ = {};
     linkAlive_ = radioDriver_.begin();
+    radioDriver_.setIrqEnabled(true);
     heartbeatTimedOut_ = false;
     failsafeActive_ = false;
     lastRxUpdateCount_ = 0;
@@ -24,6 +25,7 @@ void RadioService::update() {
 
     currentFrame_.header.sequence = static_cast<std::uint8_t>(updateCount_ & 0xFFU);
     currentFrame_.header.type = static_cast<std::uint8_t>(currentPacketType_);
+    currentFrame_.header.flags = 0;
 
     if (!protocol::encodePacket(currentFrame_, encodedFrameBuffer_.data(), encodedFrameBuffer_.size(), encodedFrameSize_)) {
         linkAlive_ = false;
@@ -38,7 +40,13 @@ void RadioService::update() {
     }
 
     std::size_t receivedLength = 0;
-    if (!radioDriver_.available() || !radioDriver_.read(rxBuffer_.data(), rxBuffer_.size(), receivedLength)) {
+    if (!radioDriver_.hasPendingInterrupt()) {
+        evaluateLinkState();
+        return;
+    }
+
+    if (!radioDriver_.read(rxBuffer_.data(), rxBuffer_.size(), receivedLength)) {
+        radioDriver_.clearPendingInterrupt();
         evaluateLinkState();
         return;
     }

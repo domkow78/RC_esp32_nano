@@ -3,6 +3,7 @@
 bool Nrf24Driver::begin() {
     ready_ = true;
     rxLength_ = 0;
+    pendingInterrupt_ = false;
     return ready_;
 }
 
@@ -20,6 +21,9 @@ bool Nrf24Driver::write(const std::uint8_t* data, std::size_t length) {
             rxBuffer_[index] = data[index];
         }
         rxLength_ = length;
+        if (irqEnabled_) {
+            pendingInterrupt_ = true;
+        }
     }
 
     return true;
@@ -38,11 +42,27 @@ bool Nrf24Driver::read(std::uint8_t* data, std::size_t bufferSize, std::size_t& 
 
     outLength = rxLength_;
     rxLength_ = 0;
+    pendingInterrupt_ = false;
     return true;
 }
 
 bool Nrf24Driver::available() const {
     return rxLength_ > 0;
+}
+
+bool Nrf24Driver::hasPendingInterrupt() const {
+    return pendingInterrupt_;
+}
+
+void Nrf24Driver::clearPendingInterrupt() {
+    pendingInterrupt_ = false;
+}
+
+void Nrf24Driver::setIrqEnabled(bool enabled) {
+    irqEnabled_ = enabled;
+    if (!irqEnabled_) {
+        pendingInterrupt_ = false;
+    }
 }
 
 void Nrf24Driver::setLoopbackEnabled(bool enabled) {
