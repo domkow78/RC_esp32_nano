@@ -11,6 +11,7 @@ public:
     int appliedThrottle() const;
     int appliedSteering() const;
     bool brakeActive() const;
+    bool escArmed() const;
 
 private:
     static int clamp(int value, int minValue, int maxValue);

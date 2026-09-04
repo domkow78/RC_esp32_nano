@@ -39,6 +39,10 @@ bool DriveController::brakeActive() const {
     return brakeActive_;
 }
 
+bool DriveController::escArmed() const {
+    return escDriver_.armed();
+}
+
 int DriveController::clamp(int value, int minValue, int maxValue) {
     if (value < minValue) {
         return minValue;

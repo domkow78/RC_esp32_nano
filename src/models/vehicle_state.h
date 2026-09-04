@@ -26,6 +26,10 @@ struct VehicleState {
 	int driveThrottleCommand = 0;
 	int driveSteeringCommand = 0;
 	bool driveBrakeCommand = false;
+	int escAppliedThrottle = 0;
+	int servoAppliedSteering = 0;
+	bool escBrakeActive = false;
+	bool escArmed = false;
 	OperatingMode mode = OperatingMode::Boot;
 	bool failsafeActive = false;
 };

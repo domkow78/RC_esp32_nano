@@ -30,6 +30,7 @@ private:
     void runServicesTick();
     void runApplicationTick();
     void syncVehicleStateFromRadio();
+    void syncVehicleStateFromDrive();
     void updateOperatingMode();
 
     DriveController driveController_;

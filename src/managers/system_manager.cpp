@@ -70,11 +70,19 @@ void SystemManager::runApplicationTick() {
 	updateOperatingMode();
 	missionController_.update(vehicleState_);
 	driveController_.update(vehicleState_);
+	syncVehicleStateFromDrive();
 }
 
 void SystemManager::syncVehicleStateFromRadio() {
 	vehicleState_.radio = radioService_.latestPacket();
 	vehicleState_.failsafeActive = radioService_.failsafeActive();
+}
+
+void SystemManager::syncVehicleStateFromDrive() {
+	vehicleState_.escAppliedThrottle = driveController_.appliedThrottle();
+	vehicleState_.servoAppliedSteering = driveController_.appliedSteering();
+	vehicleState_.escBrakeActive = driveController_.brakeActive();
+	vehicleState_.escArmed = driveController_.escArmed();
 }
 
 void SystemManager::updateOperatingMode() {

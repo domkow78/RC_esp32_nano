@@ -45,6 +45,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 	- [x] Mapowanie ESC: neutral / brake / reverse
 	- [x] Limity sterowania zależne od trybu pracy
 	- [x] Nieblokujące uzbrajanie ESC przy starcie
+	- [x] Widoczność stanu uzbrojenia ESC w `VehicleState`
 - [ ] Weryfikacja EMC i odporności na zakłócenia
 
 ## 3. Plan prac
