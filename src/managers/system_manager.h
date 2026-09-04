@@ -4,6 +4,8 @@
 #include "../controllers/mission_controller.h"
 #include "../models/vehicle_state.h"
 #include "../services/radio_service.h"
+#include "../web/api/api.h"
+#include "../web/websocket/websocket.h"
 
 class SystemManager {
 public:
@@ -33,9 +35,11 @@ private:
     void syncVehicleStateFromDrive();
     void updateOperatingMode();
 
+    ApiService apiService_;
     DriveController driveController_;
     MissionController missionController_;
     RadioService radioService_;
+    WebSocketPublisher webSocketPublisher_;
     VehicleState vehicleState_;
     bool started_ = false;
     StartupPhase startupPhase_ = StartupPhase::Idle;

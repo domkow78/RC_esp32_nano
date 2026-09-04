@@ -50,6 +50,8 @@ void SystemManager::initializeCore() {
 
 void SystemManager::initializeServices() {
 	radioService_.begin();
+	webSocketPublisher_.begin();
+	apiService_.begin(&webSocketPublisher_);
 }
 
 void SystemManager::initializeApplication() {
@@ -72,6 +74,7 @@ void SystemManager::runApplicationTick() {
 	driveController_.update(vehicleState_);
 	syncVehicleStateFromDrive();
 	radioService_.setTelemetryData(vehicleState_);
+	apiService_.publishTelemetry(vehicleState_);
 }
 
 void SystemManager::syncVehicleStateFromRadio() {
