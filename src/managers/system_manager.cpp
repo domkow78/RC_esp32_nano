@@ -71,6 +71,7 @@ void SystemManager::runApplicationTick() {
 	missionController_.update(vehicleState_);
 	driveController_.update(vehicleState_);
 	syncVehicleStateFromDrive();
+	radioService_.setTelemetryData(vehicleState_);
 }
 
 void SystemManager::syncVehicleStateFromRadio() {

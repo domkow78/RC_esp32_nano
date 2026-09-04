@@ -74,6 +74,9 @@ struct TelemetryPayload {
     std::int16_t rssi = 0;
     std::uint8_t packetLoss = 0;
     std::uint8_t errorFlags = 0;
+    std::int16_t appliedThrottle = 0;
+    std::int8_t appliedSteering = 0;
+    std::uint8_t driveFlags = 0;
 };
 
 inline std::size_t encodedSize(const PacketFrame& frame) {

@@ -17,6 +17,7 @@ struct RadioPacket {
     short telemetryRssi = 0;
     unsigned char telemetryPacketLoss = 0;
     unsigned char telemetryErrorFlags = 0;
+    unsigned char telemetryDriveFlags = 0;
     bool lights = false;
     bool emergencyStop = false;
     bool valid = false;

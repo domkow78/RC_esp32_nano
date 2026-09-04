@@ -75,7 +75,9 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 - [ ] Dodać obsługę MPU6050
 - [ ] Dodać obsługę TF-Luna
 - [ ] Dodać odczyt baterii przez ADC
-- [ ] Dodać emisję danych telemetrycznych
+- [~] Dodać emisję danych telemetrycznych
+	- [x] Ramka TELEMETRY zawiera diagnostykę napędu (ESC armed/brake, output)
+	- [ ] Publikacja telemetryki do warstwy WebSocket
 
 ### Etap D - Interfejs i diagnostyka
 
