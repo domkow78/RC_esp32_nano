@@ -51,7 +51,11 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 ### Etap B - Komunikacja i sterowanie
 
 - [ ] Dokończyć implementację VCP po stronie pojazdu
-- [ ] Obsłużyć pakiety CONTROL, HEARTBEAT, STATUS i TELEMETRY
+- [~] Obsłużyć pakiety CONTROL, HEARTBEAT, STATUS i TELEMETRY
+	- [x] Dekodowanie CONTROL
+	- [x] Dekodowanie HEARTBEAT
+	- [x] Dekodowanie STATUS
+	- [ ] Dekodowanie TELEMETRY
 - [x] Dodać CRC i numer sekwencyjny do obsługi ramek
 - [x] Zaimplementować timeout i przejście do SAFE_STOP
 - [x] Zdefiniować bazowe typy protokołu VCP

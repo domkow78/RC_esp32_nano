@@ -61,6 +61,11 @@ struct HeartbeatPayload {
     std::uint8_t errorCode = 0;
 };
 
+struct StatusPayload {
+    std::uint8_t statusCode = 0;
+    std::uint8_t statusFlags = 0;
+};
+
 struct TelemetryPayload {
     float batteryVoltage = 0.0f;
     float batteryCurrent = 0.0f;

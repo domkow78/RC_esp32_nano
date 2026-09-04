@@ -1,5 +1,17 @@
 #include "radio_service.h"
 
+std::int16_t RadioService::readInt16Le(const std::uint8_t* data) {
+    return static_cast<std::int16_t>(
+        static_cast<std::uint16_t>(data[0]) |
+        (static_cast<std::uint16_t>(data[1]) << 8));
+}
+
+std::uint16_t RadioService::readUInt16Le(const std::uint8_t* data) {
+    return static_cast<std::uint16_t>(
+        static_cast<std::uint16_t>(data[0]) |
+        (static_cast<std::uint16_t>(data[1]) << 8));
+}
+
 void RadioService::begin() {
     updateCount_ = 0;
     currentPacketType_ = protocol::PacketType::Status;
@@ -118,15 +130,23 @@ void RadioService::processIncomingFrame(const protocol::PacketFrame& frame) {
     latestPacket_.valid = true;
 
     if (currentPacketType_ == protocol::PacketType::Control && frame.payloadLength >= 7U) {
-        latestPacket_.throttle = static_cast<int>(static_cast<std::int16_t>(
-            static_cast<std::uint16_t>(frame.payload[0]) |
-            (static_cast<std::uint16_t>(frame.payload[1]) << 8)));
-
-        latestPacket_.steering = static_cast<int>(static_cast<std::int16_t>(
-            static_cast<std::uint16_t>(frame.payload[2]) |
-            (static_cast<std::uint16_t>(frame.payload[3]) << 8)));
+        latestPacket_.throttle = static_cast<int>(readInt16Le(frame.payload.data()));
+        latestPacket_.steering = static_cast<int>(readInt16Le(frame.payload.data() + 2));
 
         latestPacket_.lights = frame.payload[5] != 0;
         latestPacket_.emergencyStop = frame.payload[6] != 0;
+        return;
+    }
+
+    if (currentPacketType_ == protocol::PacketType::Heartbeat && frame.payloadLength >= 4U) {
+        latestPacket_.heartbeatUptimeMs = readUInt16Le(frame.payload.data());
+        latestPacket_.heartbeatLinkState = frame.payload[2];
+        latestPacket_.heartbeatErrorCode = frame.payload[3];
+        return;
+    }
+
+    if (currentPacketType_ == protocol::PacketType::Status && frame.payloadLength >= 2U) {
+        latestPacket_.statusCode = frame.payload[0];
+        latestPacket_.statusFlags = frame.payload[1];
     }
 }
