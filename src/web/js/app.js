@@ -30,8 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
         servoSteering: document.getElementById("servo-steering"),
         escArmed: document.getElementById("esc-armed"),
         escBrake: document.getElementById("esc-brake"),
+        errorCode: document.getElementById("error-code"),
         wsServer: document.getElementById("ws-server"),
-        packetCount: document.getElementById("packet-count")
+        packetCount: document.getElementById("packet-count"),
+        logCount: document.getElementById("log-count"),
+        lastLog: document.getElementById("last-log")
     };
 
     function setConnection(online) {
@@ -67,6 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
         el.servoSteering.textContent = asText(payload.servoSteering, "-");
         el.escArmed.textContent = payload.escArmed ? "YES" : "NO";
         el.escBrake.textContent = payload.escBrake ? "ON" : "OFF";
+        el.errorCode.textContent = asText(payload.errorCode, "0");
+        el.logCount.textContent = asText(payload.logCount, "0");
+        el.lastLog.textContent = asText(payload.lastLog, "-");
         el.wsServer.textContent = "ACTIVE";
     }
 

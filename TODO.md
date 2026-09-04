@@ -86,7 +86,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 - [ ] Uruchomić Wi-Fi AP na ESP32
 - [x] Zbudować prosty dashboard WWW
 - [x] Dodać panel diagnostyczny i status systemu
-- [ ] Dodać logi i kody błędów
+- [x] Dodać logi i kody błędów
 
 ### Etap E - Bezpieczeństwo i testy
 

@@ -34,6 +34,7 @@ private:
     void syncVehicleStateFromRadio();
     void syncVehicleStateFromDrive();
     void updateOperatingMode();
+    void updateDiagnostics();
 
     ApiService apiService_;
     DriveController driveController_;
@@ -41,6 +42,9 @@ private:
     RadioService radioService_;
     WebSocketPublisher webSocketPublisher_;
     VehicleState vehicleState_;
+    OperatingMode lastLoggedMode_ = OperatingMode::Boot;
+    bool lastLoggedFailsafe_ = false;
+    unsigned char lastLoggedErrorCode_ = 0;
     bool started_ = false;
     StartupPhase startupPhase_ = StartupPhase::Idle;
     unsigned long updateCount_ = 0;

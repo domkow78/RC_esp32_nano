@@ -31,6 +31,9 @@ struct VehicleState {
 	bool escBrakeActive = false;
 	bool escArmed = false;
 	bool webSocketServerActive = false;
+	unsigned char systemErrorCode = 0;
+	unsigned long logCount = 0;
+	char lastLog[96] = "BOOT";
 	OperatingMode mode = OperatingMode::Boot;
 	bool failsafeActive = false;
 };

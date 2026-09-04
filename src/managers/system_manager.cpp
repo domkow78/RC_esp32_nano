@@ -1,5 +1,7 @@
 #include "system_manager.h"
 
+#include <cstdio>
+
 void SystemManager::begin() {
 	if (started_) {
 		return;
@@ -46,6 +48,12 @@ const VehicleState& SystemManager::vehicleState() const {
 
 void SystemManager::initializeCore() {
 	vehicleState_.mode = OperatingMode::Init;
+	vehicleState_.systemErrorCode = 0;
+	vehicleState_.logCount = 1;
+	std::snprintf(vehicleState_.lastLog, sizeof(vehicleState_.lastLog), "INIT");
+	lastLoggedMode_ = vehicleState_.mode;
+	lastLoggedFailsafe_ = vehicleState_.failsafeActive;
+	lastLoggedErrorCode_ = vehicleState_.systemErrorCode;
 }
 
 void SystemManager::initializeServices() {
@@ -73,6 +81,7 @@ void SystemManager::runApplicationTick() {
 	missionController_.update(vehicleState_);
 	driveController_.update(vehicleState_);
 	syncVehicleStateFromDrive();
+	updateDiagnostics();
 	radioService_.setTelemetryData(vehicleState_);
 	apiService_.publishTelemetry(vehicleState_);
 }
@@ -102,4 +111,39 @@ void SystemManager::updateOperatingMode() {
 		vehicleState_.mode == OperatingMode::SafeStop) {
 		vehicleState_.mode = OperatingMode::Manual;
 	}
+}
+
+void SystemManager::updateDiagnostics() {
+	unsigned char errorCode = 0;
+
+	if (vehicleState_.failsafeActive) {
+		errorCode = 2;
+	} else if (vehicleState_.radio.heartbeatErrorCode != 0U) {
+		errorCode = vehicleState_.radio.heartbeatErrorCode;
+	} else if (vehicleState_.radio.statusCode != 0U) {
+		errorCode = vehicleState_.radio.statusCode;
+	}
+
+	vehicleState_.systemErrorCode = errorCode;
+
+	const bool modeChanged = vehicleState_.mode != lastLoggedMode_;
+	const bool failsafeChanged = vehicleState_.failsafeActive != lastLoggedFailsafe_;
+	const bool errorChanged = vehicleState_.systemErrorCode != lastLoggedErrorCode_;
+
+	if (!modeChanged && !failsafeChanged && !errorChanged) {
+		return;
+	}
+
+	vehicleState_.logCount += 1;
+	std::snprintf(
+		vehicleState_.lastLog,
+		sizeof(vehicleState_.lastLog),
+		"mode=%d failsafe=%d err=%u",
+		static_cast<int>(vehicleState_.mode),
+		vehicleState_.failsafeActive ? 1 : 0,
+		static_cast<unsigned int>(vehicleState_.systemErrorCode));
+
+	lastLoggedMode_ = vehicleState_.mode;
+	lastLoggedFailsafe_ = vehicleState_.failsafeActive;
+	lastLoggedErrorCode_ = vehicleState_.systemErrorCode;
 }

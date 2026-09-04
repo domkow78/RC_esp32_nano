@@ -53,9 +53,12 @@ void WebSocketPublisher::publishTelemetry(const VehicleState& vehicleState) {
     std::snprintf(
         lastPayload_,
         sizeof(lastPayload_),
-        "{\"mode\":%d,\"failsafe\":%d,\"batteryV\":%.2f,\"imuHeading\":%.2f,\"lidarCm\":%.2f,\"throttleCmd\":%d,\"steeringCmd\":%d,\"escThrottle\":%d,\"servoSteering\":%d,\"escArmed\":%d,\"escBrake\":%d}",
+        "{\"mode\":%d,\"failsafe\":%d,\"errorCode\":%u,\"logCount\":%lu,\"lastLog\":\"%s\",\"batteryV\":%.2f,\"imuHeading\":%.2f,\"lidarCm\":%.2f,\"throttleCmd\":%d,\"steeringCmd\":%d,\"escThrottle\":%d,\"servoSteering\":%d,\"escArmed\":%d,\"escBrake\":%d}",
         mode,
         failsafe,
+        static_cast<unsigned int>(vehicleState.systemErrorCode),
+        vehicleState.logCount,
+        vehicleState.lastLog,
         static_cast<double>(vehicleState.battery.voltage),
         static_cast<double>(vehicleState.imu.heading),
         static_cast<double>(vehicleState.lidar.distanceCm),
