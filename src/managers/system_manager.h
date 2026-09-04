@@ -4,6 +4,7 @@
 #include "../controllers/mission_controller.h"
 #include "../models/vehicle_state.h"
 #include "../services/radio_service.h"
+#include "../managers/wifi_manager.h"
 #include "../web/api/api.h"
 #include "../web/websocket/websocket.h"
 
@@ -33,6 +34,7 @@ private:
     void runApplicationTick();
     void syncVehicleStateFromRadio();
     void syncVehicleStateFromDrive();
+    void syncVehicleStateFromWifi();
     void updateOperatingMode();
     void updateDiagnostics();
 
@@ -40,6 +42,7 @@ private:
     DriveController driveController_;
     MissionController missionController_;
     RadioService radioService_;
+    WifiManager wifiManager_;
     WebSocketPublisher webSocketPublisher_;
     VehicleState vehicleState_;
     OperatingMode lastLoggedMode_ = OperatingMode::Boot;

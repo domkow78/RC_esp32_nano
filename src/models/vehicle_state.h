@@ -30,6 +30,8 @@ struct VehicleState {
 	int servoAppliedSteering = 0;
 	bool escBrakeActive = false;
 	bool escArmed = false;
+	bool wifiApActive = false;
+	int wifiStationCount = 0;
 	bool webSocketServerActive = false;
 	unsigned char systemErrorCode = 0;
 	unsigned long logCount = 0;

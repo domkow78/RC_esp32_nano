@@ -12,4 +12,10 @@ inline constexpr bool kUseWifiAp = true;
 
 inline constexpr unsigned long kSerialBaudRate = 115200;
 
+inline constexpr const char* kWifiApSsid = "RC_ESP32_NANO_V3";
+inline constexpr const char* kWifiApPassword = "rcnano2026";
+inline constexpr int kWifiApChannel = 6;
+inline constexpr bool kWifiApHidden = false;
+inline constexpr int kWifiApMaxClients = 4;
+
 }  // namespace config

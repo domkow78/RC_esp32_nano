@@ -31,6 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
         escArmed: document.getElementById("esc-armed"),
         escBrake: document.getElementById("esc-brake"),
         errorCode: document.getElementById("error-code"),
+        wifiAp: document.getElementById("wifi-ap"),
+        wifiClients: document.getElementById("wifi-clients"),
         wsServer: document.getElementById("ws-server"),
         packetCount: document.getElementById("packet-count"),
         logCount: document.getElementById("log-count"),
@@ -71,6 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
         el.escArmed.textContent = payload.escArmed ? "YES" : "NO";
         el.escBrake.textContent = payload.escBrake ? "ON" : "OFF";
         el.errorCode.textContent = asText(payload.errorCode, "0");
+        el.wifiAp.textContent = payload.wifiApActive ? "ACTIVE" : "OFF";
+        el.wifiClients.textContent = asText(payload.wifiClients, "0");
         el.logCount.textContent = asText(payload.logCount, "0");
         el.lastLog.textContent = asText(payload.lastLog, "-");
         el.wsServer.textContent = "ACTIVE";

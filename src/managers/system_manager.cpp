@@ -58,6 +58,7 @@ void SystemManager::initializeCore() {
 
 void SystemManager::initializeServices() {
 	radioService_.begin();
+	wifiManager_.begin();
 	webSocketPublisher_.begin();
 	apiService_.begin(&webSocketPublisher_);
 }
@@ -73,6 +74,7 @@ void SystemManager::runCoreTick() {
 
 void SystemManager::runServicesTick() {
 	radioService_.update();
+	wifiManager_.update();
 }
 
 void SystemManager::runApplicationTick() {
@@ -81,6 +83,7 @@ void SystemManager::runApplicationTick() {
 	missionController_.update(vehicleState_);
 	driveController_.update(vehicleState_);
 	syncVehicleStateFromDrive();
+	syncVehicleStateFromWifi();
 	updateDiagnostics();
 	radioService_.setTelemetryData(vehicleState_);
 	apiService_.publishTelemetry(vehicleState_);
@@ -97,6 +100,11 @@ void SystemManager::syncVehicleStateFromDrive() {
 	vehicleState_.escBrakeActive = driveController_.brakeActive();
 	vehicleState_.escArmed = driveController_.escArmed();
 	vehicleState_.webSocketServerActive = webSocketPublisher_.serverActive();
+}
+
+void SystemManager::syncVehicleStateFromWifi() {
+	vehicleState_.wifiApActive = wifiManager_.apActive();
+	vehicleState_.wifiStationCount = wifiManager_.stationCount();
 }
 
 void SystemManager::updateOperatingMode() {
