@@ -42,7 +42,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 - [ ] Potwierdzić mapę modułów i odpowiedzialności warstw
 - [ ] Uzupełnić main.cpp o inicjalizację SystemManager
 - [x] Uporządkować konfigurację w katalogu config/
-- [ ] Zdefiniować wspólne modele danych w models/
+- [x] Zdefiniować wspólne modele danych w models/
 
 ### Etap B - Komunikacja i sterowanie
 
