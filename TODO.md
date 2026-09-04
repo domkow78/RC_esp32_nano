@@ -24,7 +24,9 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 	- [x] Dodanie inicjalizacji warstw startowych
 	- [x] Dodanie podstawowego cyklu pracy firmware
 	- [x] Uporządkowanie faz startowych `SystemManager`
-- [ ] Integracja nRF24L01 z obsługą IRQ i heartbeat
+- [~] Integracja nRF24L01 z obsługą IRQ i heartbeat
+	- [x] Dodanie warstwy transportowej TX/RX nRF24 (adapter)
+	- [ ] Dodanie obsługi IRQ i heartbeat timeout
 - [ ] Integracja TF-Luna jako czujnika przeszkód z przodu
 - [ ] Integracja MPU6050 dla podstawowej stabilizacji kierunku
 - [ ] Integracja SSD1306 jako panelu statusu
