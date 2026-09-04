@@ -48,7 +48,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 
 - [ ] Dokończyć implementację VCP po stronie pojazdu
 - [ ] Obsłużyć pakiety CONTROL, HEARTBEAT, STATUS i TELEMETRY
-- [ ] Dodać CRC i numer sekwencyjny do obsługi ramek
+- [x] Dodać CRC i numer sekwencyjny do obsługi ramek
 - [ ] Zaimplementować timeout i przejście do SAFE_STOP
 - [x] Zdefiniować bazowe typy protokołu VCP
 
