@@ -5,7 +5,7 @@
 ## 1. Purpose
 
 This document defines the functional and non-functional requirements for
-the Caterpillar Car platform. It serves as the primary reference for
+the RC Car platform. It serves as the primary reference for
 firmware, hardware and verification activities.
 
 ------------------------------------------------------------------------
