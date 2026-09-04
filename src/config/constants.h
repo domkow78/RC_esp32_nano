@@ -13,16 +13,25 @@ inline constexpr unsigned long kLinkNeutralMs = 300;
 
 inline constexpr int kRadioPayloadMaxBytes = 32;
 inline constexpr int kControlDeadzone = 8;
-inline constexpr int kThrottleMin = 0;
+inline constexpr int kThrottleMin = -255;
 inline constexpr int kThrottleMax = 255;
 inline constexpr int kSteeringMin = -100;
 inline constexpr int kSteeringMax = 100;
+
+inline constexpr int kManualThrottleAbsMax = 255;
+inline constexpr int kSemiAutoThrottleAbsMax = 180;
+inline constexpr int kAutoThrottleAbsMax = 140;
+
+inline constexpr int kManualSteeringAbsMax = 100;
+inline constexpr int kSemiAutoSteeringAbsMax = 70;
+inline constexpr int kAutoSteeringAbsMax = 50;
 
 inline constexpr int kPwmFrequencyHz = 50;
 inline constexpr int kPwmResolutionBits = 16;
 inline constexpr int kEscPulseMinUs = 1000;
 inline constexpr int kEscPulseMaxUs = 2000;
 inline constexpr int kEscPulseNeutralUs = 1500;
+inline constexpr int kEscPulseBrakeUs = 1350;
 inline constexpr int kServoPulseMinUs = 1000;
 inline constexpr int kServoPulseMaxUs = 2000;
 inline constexpr int kServoPulseCenterUs = 1500;

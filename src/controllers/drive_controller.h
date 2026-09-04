@@ -14,6 +14,8 @@ public:
 
 private:
     static int clamp(int value, int minValue, int maxValue);
+    static int modeThrottleAbsLimit(OperatingMode mode);
+    static int modeSteeringAbsLimit(OperatingMode mode);
 
     EscDriver escDriver_;
     ServoDriver servoDriver_;

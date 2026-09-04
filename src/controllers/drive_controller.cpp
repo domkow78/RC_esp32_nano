@@ -9,14 +9,20 @@ void DriveController::begin() {
 }
 
 void DriveController::update(const VehicleState& vehicleState) {
-    const int throttle = vehicleState.driveBrakeCommand
-        ? 0
-        : clamp(vehicleState.driveThrottleCommand, config::kThrottleMin, config::kThrottleMax);
-    const int steering = clamp(vehicleState.driveSteeringCommand, config::kSteeringMin, config::kSteeringMax);
+    const int throttleLimit = modeThrottleAbsLimit(vehicleState.mode);
+    const int steeringLimit = modeSteeringAbsLimit(vehicleState.mode);
 
-    escDriver_.writeThrottle(throttle);
+    const int throttleMin = -throttleLimit;
+    const int throttleMax = throttleLimit;
+    const int steeringMin = -steeringLimit;
+    const int steeringMax = steeringLimit;
+
+    const int throttle = clamp(vehicleState.driveThrottleCommand, throttleMin, throttleMax);
+    const int steering = clamp(vehicleState.driveSteeringCommand, steeringMin, steeringMax);
+
+    escDriver_.writeCommand(throttle, vehicleState.driveBrakeCommand);
     servoDriver_.writeSteering(steering);
-    brakeActive_ = vehicleState.driveBrakeCommand;
+    brakeActive_ = escDriver_.brakeActive();
 }
 
 int DriveController::appliedThrottle() const {
@@ -39,4 +45,24 @@ int DriveController::clamp(int value, int minValue, int maxValue) {
         return maxValue;
     }
     return value;
+}
+
+int DriveController::modeThrottleAbsLimit(OperatingMode mode) {
+    if (mode == OperatingMode::Auto) {
+        return config::kAutoThrottleAbsMax;
+    }
+    if (mode == OperatingMode::SemiAuto) {
+        return config::kSemiAutoThrottleAbsMax;
+    }
+    return config::kManualThrottleAbsMax;
+}
+
+int DriveController::modeSteeringAbsLimit(OperatingMode mode) {
+    if (mode == OperatingMode::Auto) {
+        return config::kAutoSteeringAbsMax;
+    }
+    if (mode == OperatingMode::SemiAuto) {
+        return config::kSemiAutoSteeringAbsMax;
+    }
+    return config::kManualSteeringAbsMax;
 }
