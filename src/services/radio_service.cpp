@@ -5,6 +5,9 @@ void RadioService::begin() {
     currentPacketType_ = protocol::PacketType::Status;
     latestPacket_ = {};
     linkAlive_ = radioDriver_.begin();
+    heartbeatTimedOut_ = false;
+    failsafeActive_ = false;
+    lastRxUpdateCount_ = 0;
     currentFrame_ = {};
     currentFrame_.header.type = static_cast<std::uint8_t>(currentPacketType_);
     currentFrame_.header.version = protocol::kVersion;
@@ -24,25 +27,32 @@ void RadioService::update() {
 
     if (!protocol::encodePacket(currentFrame_, encodedFrameBuffer_.data(), encodedFrameBuffer_.size(), encodedFrameSize_)) {
         linkAlive_ = false;
+        evaluateLinkState();
         return;
     }
 
     if (!radioDriver_.write(encodedFrameBuffer_.data(), encodedFrameSize_)) {
         linkAlive_ = false;
+        evaluateLinkState();
         return;
     }
 
     std::size_t receivedLength = 0;
     if (!radioDriver_.available() || !radioDriver_.read(rxBuffer_.data(), rxBuffer_.size(), receivedLength)) {
+        evaluateLinkState();
         return;
     }
 
     protocol::PacketFrame decodedFrame;
     if (!protocol::decodePacket(rxBuffer_.data(), receivedLength, decodedFrame)) {
+        evaluateLinkState();
         return;
     }
 
+    lastRxUpdateCount_ = updateCount_;
     linkAlive_ = true;
+    heartbeatTimedOut_ = false;
+    failsafeActive_ = false;
     processIncomingFrame(decodedFrame);
 }
 
@@ -64,6 +74,31 @@ std::size_t RadioService::encodedFrameSize() const {
 
 bool RadioService::linkAlive() const {
     return linkAlive_;
+}
+
+bool RadioService::heartbeatTimedOut() const {
+    return heartbeatTimedOut_;
+}
+
+bool RadioService::failsafeActive() const {
+    return failsafeActive_;
+}
+
+void RadioService::evaluateLinkState() {
+    const unsigned long elapsedUpdates = updateCount_ - lastRxUpdateCount_;
+    const unsigned long elapsedMs = elapsedUpdates * config::kControlLoopPeriodMs;
+
+    heartbeatTimedOut_ = elapsedMs >= config::kFailsafeTimeoutMs;
+
+    if (!heartbeatTimedOut_) {
+        return;
+    }
+
+    failsafeActive_ = true;
+    linkAlive_ = false;
+    currentFrame_.header.flags |= static_cast<std::uint8_t>(protocol::PacketFlag::FailsafeActive);
+    latestPacket_.emergencyStop = true;
+    latestPacket_.valid = false;
 }
 
 void RadioService::processIncomingFrame(const protocol::PacketFrame& frame) {

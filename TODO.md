@@ -26,7 +26,9 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 	- [x] Uporządkowanie faz startowych `SystemManager`
 - [~] Integracja nRF24L01 z obsługą IRQ i heartbeat
 	- [x] Dodanie warstwy transportowej TX/RX nRF24 (adapter)
-	- [ ] Dodanie obsługi IRQ i heartbeat timeout
+	- [~] Dodanie obsługi IRQ i heartbeat timeout
+	  - [x] Heartbeat timeout i SAFE_STOP w `RadioService`
+	  - [ ] Obsługa IRQ po stronie drivera nRF24
 - [ ] Integracja TF-Luna jako czujnika przeszkód z przodu
 - [ ] Integracja MPU6050 dla podstawowej stabilizacji kierunku
 - [ ] Integracja SSD1306 jako panelu statusu
@@ -51,7 +53,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 - [ ] Dokończyć implementację VCP po stronie pojazdu
 - [ ] Obsłużyć pakiety CONTROL, HEARTBEAT, STATUS i TELEMETRY
 - [x] Dodać CRC i numer sekwencyjny do obsługi ramek
-- [ ] Zaimplementować timeout i przejście do SAFE_STOP
+- [x] Zaimplementować timeout i przejście do SAFE_STOP
 - [x] Zdefiniować bazowe typy protokołu VCP
 
 ### Etap C - Czujniki i telemetryka
