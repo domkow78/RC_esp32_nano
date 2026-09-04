@@ -4,10 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RC ESP32 Nano</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <main>
-        <h1>RC ESP32 Nano</h1>
+    <div class="background-glow"></div>
+    <main class="dashboard">
+        <header class="hero">
+            <p class="eyebrow">Vehicle Telemetry</p>
+            <h1>RC ESP32 Nano Control Deck</h1>
+            <div class="connection-row">
+                <span id="ws-status" class="chip chip-offline">Offline</span>
+                <span id="last-update" class="meta">Waiting for first packet</span>
+            </div>
+        </header>
+
+        <section class="grid">
+            <article class="card">
+                <h2>Vehicle State</h2>
+                <div class="kv"><span>Mode</span><strong id="mode">-</strong></div>
+                <div class="kv"><span>Failsafe</span><strong id="failsafe">-</strong></div>
+                <div class="kv"><span>Battery</span><strong id="battery">-</strong></div>
+                <div class="kv"><span>LiDAR</span><strong id="lidar">-</strong></div>
+                <div class="kv"><span>IMU Heading</span><strong id="imu">-</strong></div>
+            </article>
+
+            <article class="card">
+                <h2>Drive Commands</h2>
+                <div class="kv"><span>Throttle Cmd</span><strong id="throttle-cmd">-</strong></div>
+                <div class="kv"><span>Steering Cmd</span><strong id="steering-cmd">-</strong></div>
+                <div class="kv"><span>ESC Output</span><strong id="esc-throttle">-</strong></div>
+                <div class="kv"><span>Servo Output</span><strong id="servo-steering">-</strong></div>
+            </article>
+
+            <article class="card">
+                <h2>Safety</h2>
+                <div class="kv"><span>ESC Armed</span><strong id="esc-armed">-</strong></div>
+                <div class="kv"><span>ESC Brake</span><strong id="esc-brake">-</strong></div>
+                <div class="kv"><span>WebSocket Server</span><strong id="ws-server">-</strong></div>
+                <div class="kv"><span>Packets</span><strong id="packet-count">0</strong></div>
+            </article>
+        </section>
     </main>
+
+    <script src="../js/app.js"></script>
 </body>
 </html>

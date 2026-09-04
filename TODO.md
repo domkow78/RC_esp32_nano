@@ -84,8 +84,8 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 ### Etap D - Interfejs i diagnostyka
 
 - [ ] Uruchomić Wi-Fi AP na ESP32
-- [ ] Zbudować prosty dashboard WWW
-- [ ] Dodać panel diagnostyczny i status systemu
+- [x] Zbudować prosty dashboard WWW
+- [x] Dodać panel diagnostyczny i status systemu
 - [ ] Dodać logi i kody błędów
 
 ### Etap E - Bezpieczeństwo i testy
