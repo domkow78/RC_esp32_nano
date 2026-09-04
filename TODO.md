@@ -35,9 +35,9 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 - [ ] Integracja 3 kanałów WS2812B
 - [ ] Integracja monitoringu napięcia akumulatora
 - [ ] Uruchomienie Wi-Fi AP i panelu WWW do diagnostyki
-- [~] Implementacja telemetrii WebSocket
+- [x] Implementacja telemetrii WebSocket
 	- [x] Publikacja telemetryki JSON z `VehicleState`
-	- [ ] Podłączenie do rzeczywistego serwera WebSocket (ESPAsyncWebServer)
+	- [x] Podłączenie do rzeczywistego serwera WebSocket (ESPAsyncWebServer)
 - [~] Implementacja failsafe i SAFE_STOP
 	- [x] Timeout i aktywacja SAFE_STOP w warstwie radiowej
 	- [x] Reakcja trybu pracy (`SafeStop`) w `SystemManager`

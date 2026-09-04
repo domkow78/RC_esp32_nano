@@ -9,8 +9,10 @@ public:
 
 	const char* lastPayload() const;
 	unsigned long publishCount() const;
+	bool serverActive() const;
 
 private:
 	char lastPayload_[512] = {0};
 	unsigned long publishCount_ = 0;
+	bool serverActive_ = false;
 };

@@ -30,6 +30,7 @@ struct VehicleState {
 	int servoAppliedSteering = 0;
 	bool escBrakeActive = false;
 	bool escArmed = false;
+	bool webSocketServerActive = false;
 	OperatingMode mode = OperatingMode::Boot;
 	bool failsafeActive = false;
 };

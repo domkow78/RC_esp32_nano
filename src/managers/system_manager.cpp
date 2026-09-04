@@ -87,6 +87,7 @@ void SystemManager::syncVehicleStateFromDrive() {
 	vehicleState_.servoAppliedSteering = driveController_.appliedSteering();
 	vehicleState_.escBrakeActive = driveController_.brakeActive();
 	vehicleState_.escArmed = driveController_.escArmed();
+	vehicleState_.webSocketServerActive = webSocketPublisher_.serverActive();
 }
 
 void SystemManager::updateOperatingMode() {
