@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../controllers/mission_controller.h"
 #include "../models/vehicle_state.h"
 #include "../services/radio_service.h"
 
@@ -30,6 +31,7 @@ private:
     void syncVehicleStateFromRadio();
     void updateOperatingMode();
 
+    MissionController missionController_;
     RadioService radioService_;
     VehicleState vehicleState_;
     bool started_ = false;

@@ -39,7 +39,7 @@ Dokument do śledzenia realizacji projektu, priorytetów i stanu wdrożenia.
 - [~] Implementacja failsafe i SAFE_STOP
 	- [x] Timeout i aktywacja SAFE_STOP w warstwie radiowej
 	- [x] Reakcja trybu pracy (`SafeStop`) w `SystemManager`
-	- [ ] Przeniesienie reakcji wykonawczej do kontrolerów napędu
+	- [x] Przeniesienie reakcji wykonawczej do kontrolerów napędu
 - [ ] Weryfikacja EMC i odporności na zakłócenia
 
 ## 3. Plan prac

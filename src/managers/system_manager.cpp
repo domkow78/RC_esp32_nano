@@ -54,6 +54,7 @@ void SystemManager::initializeServices() {
 
 void SystemManager::initializeApplication() {
 	vehicleState_.mode = OperatingMode::Ready;
+	missionController_.begin();
 }
 
 void SystemManager::runCoreTick() {
@@ -66,6 +67,7 @@ void SystemManager::runServicesTick() {
 void SystemManager::runApplicationTick() {
 	syncVehicleStateFromRadio();
 	updateOperatingMode();
+	missionController_.update(vehicleState_);
 }
 
 void SystemManager::syncVehicleStateFromRadio() {
@@ -76,8 +78,6 @@ void SystemManager::syncVehicleStateFromRadio() {
 void SystemManager::updateOperatingMode() {
 	if (vehicleState_.failsafeActive || vehicleState_.radio.emergencyStop) {
 		vehicleState_.mode = OperatingMode::SafeStop;
-		vehicleState_.radio.throttle = 0;
-		vehicleState_.radio.steering = 0;
 		return;
 	}
 

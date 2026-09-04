@@ -23,6 +23,9 @@ struct VehicleState {
 	ImuData imu;
 	LidarData lidar;
 	RadioPacket radio;
+	int driveThrottleCommand = 0;
+	int driveSteeringCommand = 0;
+	bool driveBrakeCommand = false;
 	OperatingMode mode = OperatingMode::Boot;
 	bool failsafeActive = false;
 };
